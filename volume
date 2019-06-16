@@ -1,2 +1,2 @@
 #!/bin/bash
-uwsgi --http :3000 --wsgi-file src/server.py --callable volume --processes 4
+uwsgi --http :${PORT:-3001} --wsgi-file src/server.py --callable volume --processes 4
