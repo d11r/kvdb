@@ -18,14 +18,14 @@ def master(env, start_response):
         start_response('404 Not Found', [('Content-Type', 'text/html')])
         return [b"Key not found!"]
     
-    # key is found
-    metakey = json.loads(metakey)
-    
+    # key is found (volume)
+    meta = json.loads(metakey)
 
-    start_response('200 OK', [('Content-Type', 'text/html')])
+    # redirect
+    headers = [('location', 'https://%s%s' % (meta['volume'], key))] 
+    start_response('302 Found', headers)
     db.put(b'key-%d' % time.time(), b'bob')
-    return [b"Hello, World!"]
-
+ 
 # --- VOLUME SERVER ---
 
 if os.environ['TYPE'] == 'volume':
