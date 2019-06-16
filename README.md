@@ -2,10 +2,20 @@
 
 Optimized for reading files in range (1Mb - 1Gb).
 
+## Description
+
+This project includes a very simple and short implementation of a distributed key-value store.
+It contains two types of servers:
+
+- Master servers
+	- Keep track of all the metadata of all the keys put in the store 
+- Volume servers 
+	- Responsible for storing the key-value pairs
+
 ## API
 
 - GET <key>
-    - with ranges
+	- with ranges
 - PUT, DELETE <key>
 
 ## Instructions (master server)

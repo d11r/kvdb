@@ -1,2 +1,5 @@
 #!/bin/bash
-uwsgi --http :${PORT:-3001} --wsgi-file src/server.py --callable volume --processes 4
+export VOLUME=${1:-/tmp/volume1/}
+export MASTER=${2:-/localhost:3000}
+export TYPE=volume
+uwsgi --http :${port:-3001} --wsgi-file src/server.py --callable volume --master --processes 4
