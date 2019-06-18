@@ -55,7 +55,15 @@ def volume(env, start_response):
     hashkey = hashlib.md5(key).hexdigest()
 
     if env['REQUEST_METHOD'] == 'GET':
-        if not fc.exists(key):
+        if not fc.exists(hashkey):
             # key not in cache
             start_response(NOT_FOUND, TEXT_PLAIN)
             return KEY_NOT_FOUND
+        return [fc.get(hashkey)]
+
+    if env['REQUEST_METHOD'] == 'PUT':
+        file_len = int(env.get('CONTENT_LENGTH', '0'))
+        fc.put(hashkey, env['wsgi.input'].read(file_len))
+
+    if env['REQUEST_METHOD'] == 'DELETE':
+        fc.delete(hashkey)
