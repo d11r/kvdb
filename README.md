@@ -30,3 +30,12 @@ It contains two types of servers:
 ./volume /tmp/volume1/ localhost:3000
 PORT=3002 ./volume.py /tmp/volume2/ localhost:3000
 ```
+
+## Usage
+
+```bash
+# Instead of "examplekey", put the key. Instead of "examplevalue" put the desired value
+curl -X PUT -d examplevalue localhost:3000/examplekey
+curl localhost:3000/examplekey
+curl -X DELETE localhost:3000/examplekey
+```
