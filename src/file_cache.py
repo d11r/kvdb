@@ -18,7 +18,7 @@ class FileCache(object):
         """ given a key returns if that key is already in cache  """
         return os.path.isfile(self.key_to_path(key))
 
-    def put(self, key, value):
+    def post(self, key, value):
         """ given a key and a value insert them into the cache  """
         with open(self.key_to_path(key, True), 'wb') as f:
             f.write(value)

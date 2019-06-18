@@ -16,7 +16,7 @@ It contains two types of servers:
 
 - GET <key>
 	- with ranges
-- PUT, DELETE <key>
+- POST, DELETE <key>
 
 ## Instructions (master server)
 
@@ -34,8 +34,8 @@ PORT=3002 ./volume.py /tmp/volume2/ localhost:3000
 ## Usage
 
 ```bash
-# Instead of "examplekey", put the key. Instead of "examplevalue" put the desired value
-curl -X PUT -d examplevalue localhost:3000/examplekey
+# Instead of "examplekey", post the key. Instead of "examplevalue" put the desired value
+curl -X POST -d examplevalue localhost:3000/examplekey
 curl -X GET localhost:3000/examplekey
 curl -X DELETE localhost:3000/examplekey
 ```
