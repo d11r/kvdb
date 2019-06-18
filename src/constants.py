@@ -1,4 +1,9 @@
 NOT_FOUND = '404 Not Found'
 TEXT_PLAIN = [('Content-Type', 'text/plain')]
-KEY_NOT_FOUND = [b"Key not found!"]
 FOUND = '302 Found'
+TEMPORARY_REDIRECT = '307 Temporary Redirect'
+CONFLICT = '409 Conflict'
+OK = '200 OK'
+KEY_NOT_FOUND = [b"Key not found!"]
+KEY_ALREADY_EXISTS = [b"Key already exists!"]
+LENGTH_REQUIRED = '411 Length Required'

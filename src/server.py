@@ -1,5 +1,6 @@
 import json
 import os
+import random
 import time
 import hashlib
 
@@ -19,25 +20,36 @@ if os.environ['TYPE'] == 'master':
 
 
 def master(env, start_response):
-    key = env['REQUEST_URI'].encode('utf-8')
-    metakey = db.get(key)
+    key = env['REQUEST_URI']
+    metakey = db.get(key.encode('utf-8'))
 
     if metakey is None:
         if env['REQUEST_METHOD'] == 'POST':
             # handler for data insertion
-            # TODO: figure out which Volume server to connect to
-            pass
+            # TODO: volume selection should not be random
+            volume = random.choice(volumes)
 
-        start_response(NOT_FOUND, TEXT_PLAIN)
-        return KEY_NOT_FOUND
+            # store metakey in db
+            metakey = json.dumps({"volume": volume})
+            db.put(key.encode('utf-8'), metakey.encode('utf-8'))
+        else:
+            start_response(NOT_FOUND, TEXT_PLAIN)
+            return KEY_NOT_FOUND
+    else:
+        # key is found
+        """
+        if env['REQUEST_METHOD'] == 'POST':
+            start_response(CONFLICT, TEXT_PLAIN)
+            return KEY_ALREADY_EXISTS
+        """
 
-    # key is found
-    meta = json.loads(metakey)
+        meta = json.loads(metakey.decode('utf-8'))
+        volume = meta['volume']
 
-    # redirect for either [GET, DELETE]
-    headers = [('location', 'https://%s%s' % (meta['volume'], key))]
-    start_response(FOUND, headers)
-    db.post(b'key-%d' % time.time(), b'bob')
+    # redirects
+    headers = [('Location', 'http://%s%s' % (volume, key))]
+    start_response(TEMPORARY_REDIRECT, headers)
+    db.put(b'key-%d' % time.time(), b'bob')
 
 
 # --- VOLUME SERVER ---
@@ -60,11 +72,18 @@ def volume(env, start_response):
             # key not in cache
             start_response(NOT_FOUND, TEXT_PLAIN)
             return KEY_NOT_FOUND
+        start_response(OK, TEXT_PLAIN)
         return [fc.get(hashkey)]
 
     if env['REQUEST_METHOD'] == 'POST':
         file_len = int(env.get('CONTENT_LENGTH', '0'))
-        fc.post(hashkey, env['wsgi.input'].read(file_len))
+        if file_len > 0:
+            fc.post(hashkey, env['wsgi.input'].read(file_len))
+            start_response(OK, TEXT_PLAIN)
+            return [b'']
+        else:
+            start_response(LENGTH_REQUIRED, TEXT_PLAIN)
+            return [b'']
 
     if env['REQUEST_METHOD'] == 'DELETE':
         fc.delete(hashkey)
