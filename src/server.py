@@ -1,7 +1,6 @@
 import json
 import os
 import random
-import time
 import hashlib
 
 from src.constants import *
@@ -66,18 +65,21 @@ def volume(env, start_response):
     key = env['REQUEST_URI'].encode('utf-8')
     hashkey = hashlib.md5(key).hexdigest()
 
-    if env['REQUEST_METHOD'] == 'GET':
-        if not fc.exists(hashkey):
-            return resp(start_response, NOT_FOUND, body=KEY_NOT_FOUND)
-        return resp(start_response, OK, body=fc.get(hashkey))
-
     if env['REQUEST_METHOD'] == 'POST':
         file_len = int(env.get('CONTENT_LENGTH', '0'))
         if file_len > 0:
-            fc.post(hashkey, env['wsgi.input'].read(file_len))
-            return resp(start_response, OK)
+            fc.post(hashkey, env['wsgi.input'])
+            return resp(start_response, CREATED)
         else:
             return resp(start_response, LENGTH_REQUIRED)
 
+    # key is not in cache, should return not found
+    if not fc.exists(hashkey):
+        return resp(start_response, NOT_FOUND, body=KEY_NOT_FOUND)
+
+    if env['REQUEST_METHOD'] == 'GET':
+        return resp(start_response, OK, body=fc.get(hashkey))
+
     if env['REQUEST_METHOD'] == 'DELETE':
         fc.delete(hashkey)
+        return resp(start_response, OK)
