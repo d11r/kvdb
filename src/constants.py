@@ -5,6 +5,7 @@ TEMPORARY_REDIRECT = '307 Temporary Redirect'
 CONFLICT = '409 Conflict'
 OK = '200 OK'
 CREATED = '201 Created'
+INTERNAL_SERVER_ERROR = '500 Internal Server Error'
 KEY_NOT_FOUND = [b"Key not found!"]
 KEY_ALREADY_EXISTS = [b"Key already exists!"]
 LENGTH_REQUIRED = '411 Length Required'
