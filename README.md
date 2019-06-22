@@ -21,14 +21,14 @@ It contains two types of servers:
 ## Instructions (master server)
 
 ```bash
-./master.py /tmp/cachedb
+./master localhost:3001,localhost:3002 /tmp/cachedb/
 ```
 
 ## Instructions (volume server)
 
 ```bash
-./volume /tmp/volume1/ localhost:3000
-PORT=3002 ./volume.py /tmp/volume2/ localhost:3000
+./volume /tmp/volume1/
+PORT=3002 ./volume /tmp/volume2/
 ```
 
 ## Usage
