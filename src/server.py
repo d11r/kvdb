@@ -5,6 +5,7 @@ import requests
 
 from src.constants import *
 from src.file_cache import FileCache
+from src.key_value import KeyValue
 
 
 def resp(start_response, code, headers=TEXT_PLAIN, body=b''):
@@ -21,8 +22,7 @@ if os.environ['TYPE'] == 'master':
     for v in volumes:
         print(v)
 
-    import plyvel
-    db = plyvel.DB(os.environ['DB'], create_if_missing=True)
+    db = KeyValue(os.environ['DB'])
 
 
 def master(env, start_response):
