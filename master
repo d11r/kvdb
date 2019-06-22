@@ -2,7 +2,8 @@
 export VOLUMES=${1:-localhost:3001}
 export DB=${2:-/tmp/cachedb/}
 export TYPE=master
-uwsgi --http :${PORT:-3000} --wsgi-file src/server.py --callable master
+uwsgi --http :${PORT:-3000} --wsgi-file src/server.py --callable master # --master --processes 4
 # TODO: make multi-process
 # Should be invoked like this:
 # uwsgi --http :${PORT:-3000} --wsgi-file src/server.py --callable master --master --processes 4
+
