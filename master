@@ -6,4 +6,3 @@ uwsgi --http :${PORT:-3000} --wsgi-file src/server.py --callable master # --mast
 # TODO: make multi-process
 # Should be invoked like this:
 # uwsgi --http :${PORT:-3000} --wsgi-file src/server.py --callable master --master --processes 4
-
