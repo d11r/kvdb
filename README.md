@@ -1,5 +1,7 @@
 # kvDB - a distributed key-value storage database (hash table)
 
+[![Build Status](https://travis-ci.com/strudra/kvdb.svg?branch=master)](https://travis-ci.com/strudra/kvdb)
+
 Optimized for reading files in range (1Mb - 1Gb).
 
 ## Description
