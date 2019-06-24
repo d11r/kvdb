@@ -37,7 +37,7 @@ PORT=3002 ./volume /tmp/volume2/
 
 ```bash
 # Instead of "examplekey", post the key. Instead of "examplevalue" put the desired value
-curl -X POST -d examplevalue localhost:3000/examplekey
-curl -X GET localhost:3000/examplekey
-curl -X DELETE localhost:3000/examplekey
+curl -L -X POST -d examplevalue localhost:3000/examplekey
+curl -L -X GET localhost:3000/examplekey
+curl -L -X DELETE localhost:3000/examplekey
 ```
